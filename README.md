@@ -1,2 +1,2 @@
 # SildeShow-React
-使用 Create React App +TS
+利用Create React App + less + TS製作的簡單幻燈片練習
