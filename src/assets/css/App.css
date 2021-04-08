@@ -1,0 +1,22 @@
+
+.Layout {
+  text-align: center;
+}
+
+.Layout-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.image-adder {
+  padding: 0px 40px;
+  height: 30px;
+}
