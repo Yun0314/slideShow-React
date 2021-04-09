@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import TransitionGroupContent from 'components/TransitionGroupContent';
+import TransitionGroup from 'components/TransitionGroup';
 import MaterialIcon from 'material-icons-react';
 
 const Layout = () => {
@@ -27,7 +27,7 @@ const Layout = () => {
     <div className="Layout">
       <header className="Layout-header">
         <h4>SlideShow</h4>
-        <TransitionGroupContent images={images} imageWidth={imageWidth} perPage={perPage} clear={clear} removePic={removePic} />
+        <TransitionGroup images={images} imageWidth={imageWidth} perPage={perPage} clear={clear} removePic={removePic} />
         <button className="image-adder" onClick={(e) => { e.preventDefault(); addPic() }}>
           {/* <span className="material-icons">add_photo_alternate</span> */}
           <MaterialIcon icon="add_photo_alternate" />

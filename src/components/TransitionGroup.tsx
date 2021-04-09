@@ -2,7 +2,7 @@ import { useState , useEffect} from 'react';
 import  usePrevious  from 'hook/usePrevious';
 // import MaterialIcon from 'material-icons-react';
 
-const TransitionGroupContent = (props: any) => {
+const TransitionGroup = (props: any) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
 
     // 幻燈片長度 8是css中image的padding
@@ -52,31 +52,30 @@ const TransitionGroupContent = (props: any) => {
     }
 
     const ClearButton = (clearProp: any) => {
-        return props.clear ? <span className="image-remover" onClick={() => props.removePic(clearProp.index)}>
+        return props.clear && <span className="image-remover" onClick={() => props.removePic(clearProp.index)}>
                                 &times;
-                            </span>
-                            : null
+                              </span>
     }
 
     return (
         <div>
-            <div className="image-list-wrap" style={viewWrapWidth}>
+            <div className="image-list-wrap" style={ viewWrapWidth }>
                 <ImageView />
             </div>
             <div className="image-buttons-block">
                 <button
-                    className={`image-prev ${prevButtonDisable() ? 'disable' : ''}`}
+                    className={`image-prev ${prevButtonDisable() && 'disable'}`}
                     disabled={prevButtonDisable()}
-                    onClick={(e)=> { e.preventDefault(); currentIndexMinus() }}
+                    onClick={(e)=> {e.preventDefault(); currentIndexMinus()}}
                 >
                     <span className="material-icons">arrow_back</span>
                     {/* <MaterialIcon icon="arrow_back" /> */}
                 </button>
 
                 <button
-                    className={`image-next ${nextButtonDisable() ? 'disable' : ''}`}
+                    className={`image-next ${nextButtonDisable() && 'disable'}`}
                     disabled={nextButtonDisable()}
-                    onClick={(e)=>{ e.preventDefault(); currentIndexPlus() }}
+                    onClick={(e)=>{e.preventDefault(); currentIndexPlus()}}
                 >
                     <span className="material-icons">arrow_forward</span>
                     {/* <MaterialIcon icon="arrow_forward" /> */}
@@ -87,4 +86,4 @@ const TransitionGroupContent = (props: any) => {
     );
 }
 
-export default TransitionGroupContent;
+export default TransitionGroup;
