@@ -21,7 +21,7 @@ each(@buttonType, {
             transition: 0.3s ease-in;
             background-color: @value;
             color: @white;
-            border: none;
+            border: 1px solid @value;
             border-radius: 3px;
 
             &:hover {
@@ -43,7 +43,6 @@ each(@buttonType, {
 
 .image-list {
     display: flex;
-    transition: transform 100ms ease-in-out;
 }
 
 .no-image {
@@ -65,6 +64,7 @@ each(@buttonType, {
 .image {
     position: relative;
     margin: 0 4px;
+    transition: all 250ms ease;
 }
 
 .image-remover {
@@ -100,25 +100,15 @@ each(@buttonType, {
 }
 
 // transition
-// .image-enter {
-//     transform: translateY(100%);
-//     opacity: 0;
-// }
+.image-enter {
+    transform: translateY(100%);
+    opacity: 0;
+}
 
-// .image-leave-to {
-//     transform: translateY(-100%);
-//     opacity: 0;
-// }
-
-// .image-leave-active~.image {
-//     transition: transform 250ms ease;
-//     transform: translateX(-100%);
-// }
-
-// .image-leave-active,
-// .image-enter-active {
-//     transition: all 250ms ease;
-// }
+.image-leave-to {
+    transform: translateY(-100%);
+    opacity: 0;
+}
 
 .image-desc {
     padding: 0 36px;

@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import TransitionGroup from 'components/TransitionGroup';
-import MaterialIcon from 'material-icons-react';
+import { IconContext } from "react-icons";
+import { BiImageAdd } from "react-icons/bi";
 
 const Layout = () => {
   const [images, setImages] = useState<string[]>([]);
@@ -9,7 +10,7 @@ const Layout = () => {
   const [clear] = useState<boolean>(true);
 
   const addPic = () => {
-      // 借用類星體的萬用圖片:D 推廣: https://quasar.dev/start/quasar-cli
+    // 借用類星體的萬用圖片:D 推廣: https://quasar.dev/start/quasar-cli
     let url = `https://placeimg.com/${imageWidth}/300/nature?t=` + Math.random();
 
     var imageDom = new Image();
@@ -29,8 +30,9 @@ const Layout = () => {
         <h4>SlideShow</h4>
         <TransitionGroup images={images} imageWidth={imageWidth} perPage={perPage} clear={clear} removePic={removePic} />
         <button className="image-adder" onClick={(e) => { e.preventDefault(); addPic() }}>
-          {/* <span className="material-icons">add_photo_alternate</span> */}
-          <MaterialIcon icon="add_photo_alternate" />
+          <IconContext.Provider value={{size:"2em"}}>
+              <BiImageAdd />
+          </IconContext.Provider>
         </button>
       </header>
     </div>

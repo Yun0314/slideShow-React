@@ -1,6 +1,7 @@
 import { useState , useEffect , useRef} from 'react';
 // import  usePrevious  from 'hook/usePrevious';
-// import MaterialIcon from 'material-icons-react';
+import { IconContext } from "react-icons";
+import { BsArrowLeft,BsArrowRight } from "react-icons/bs";
 
 
 interface IProps {
@@ -18,8 +19,8 @@ const TransitionGroup: React.FC<IProps> = (props) => {
     const pageIdReference = props.images.length - props.perPage;
 
     // 按鈕禁止狀態
-    const prevButtonDisable = () =>{ return !currentIndex };
-    const nextButtonDisable = () =>{ return props.images.length <= props.perPage || currentIndex >= pageIdReference };
+    const prevButtonDisable = () => { return !currentIndex };
+    const nextButtonDisable = () => { return props.images.length <= props.perPage || currentIndex >= pageIdReference };
 
     const currentIndexPlus = () => {
         nextButtonDisable() || setCurrentIndex(currentIndex+1);
@@ -50,12 +51,12 @@ const TransitionGroup: React.FC<IProps> = (props) => {
     const ImageView = () => {
         // 移動畫面位置
         const movedDistance = () => { return {transform:`translateX(${currentIndex * -1 * (props.imageWidth + 8)}px)`}};
-        
+
         if (props.images.length) {
             return <div className="image-list" style={ movedDistance() }>
                         {props.images.map((image: string | undefined,index:number) => {
                             return <div key={index} className="image">
-                                        <img src={image} alt=""  />
+                                        <img src={image} alt="" />
                                         <ClearButton index={index} />
                                     </div>;
                         })}
@@ -81,8 +82,9 @@ const TransitionGroup: React.FC<IProps> = (props) => {
                     disabled={prevButtonDisable()}
                     onClick={(e)=> {e.preventDefault(); currentIndexMinus()}}
                 >
-                    <span className="material-icons">arrow_back</span>
-                    {/* <MaterialIcon icon="arrow_back" /> */}
+                    <IconContext.Provider value={{size:"2em"}}>
+                        <BsArrowLeft />
+                    </IconContext.Provider>
                 </button>
 
                 <button
@@ -90,8 +92,9 @@ const TransitionGroup: React.FC<IProps> = (props) => {
                     disabled={nextButtonDisable()}
                     onClick={(e)=>{e.preventDefault(); currentIndexPlus()}}
                 >
-                    <span className="material-icons">arrow_forward</span>
-                    {/* <MaterialIcon icon="arrow_forward" /> */}
+                    <IconContext.Provider value={{size:"2em"}}>
+                        <BsArrowRight  />
+                    </IconContext.Provider>
                 </button>
             </div>
             <p className="image-desc">{currentIndex} / {props.images.length}</p>
