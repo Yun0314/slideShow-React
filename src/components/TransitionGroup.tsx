@@ -1,21 +1,26 @@
-import { useState , useEffect} from 'react';
-import  usePrevious  from 'hook/usePrevious';
+import { useState , useEffect , useRef} from 'react';
+// import  usePrevious  from 'hook/usePrevious';
 // import MaterialIcon from 'material-icons-react';
 
-const TransitionGroup = (props: any) => {
+
+interface IProps {
+    images:Array<string>;
+    removePic: (i: number) => void;
+    [x: string]: any;
+}
+
+const TransitionGroup: React.FC<IProps> = (props) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const isRemovePic  = useRef<boolean>(false);
 
     // 幻燈片長度 8是css中image的padding
     const viewWrapWidth = { width: (props.imageWidth + 8) * props.perPage + "px" };
-    const pageIdReference = () => { return props.images.length - props.perPage };
-    // 儲存 pageIdReference 前一個值
-    const prevPageIdReference = usePrevious(pageIdReference());
-    // 儲存 props.images.length 前一個值
-    const prevImagesLength = usePrevious(props.images.length);
+    const pageIdReference = props.images.length - props.perPage;
+
     // 按鈕禁止狀態
     const prevButtonDisable = () =>{ return !currentIndex };
-    const nextButtonDisable = () =>{ return props.images.length <= props.perPage || currentIndex >= pageIdReference()};
-    
+    const nextButtonDisable = () =>{ return props.images.length <= props.perPage || currentIndex >= pageIdReference };
+
     const currentIndexPlus = () => {
         nextButtonDisable() || setCurrentIndex(currentIndex+1);
     }
@@ -23,15 +28,23 @@ const TransitionGroup = (props: any) => {
         prevButtonDisable() || setCurrentIndex(currentIndex-1);
     }
 
-    useEffect(() => { 
-        props.images.length > prevImagesLength ? currentIndexPlus() : currentIndexMinus();
+    const handleRemovePic = (index: number) => {
+        props.removePic(index);
+        isRemovePic.current = true;
+    }
 
-        //新增時到新圖片的定點
-        if(prevPageIdReference < pageIdReference() && !nextButtonDisable()){
-            setCurrentIndex(pageIdReference());
+    useEffect(() => { 
+        if(isRemovePic.current){
+            pageIdReference < 0 || setCurrentIndex(currentIndex => {
+                return currentIndex === 0 ? 0 :currentIndex -1;
+            });
+            isRemovePic.current = false;
+        }else{
+            const newIndex = pageIdReference > 0 ? pageIdReference : 0;
+            setCurrentIndex(newIndex);
         }
     }, 
-    [props.images] 
+    [pageIdReference] 
     );
 
     const ImageView = () => {
@@ -52,7 +65,7 @@ const TransitionGroup = (props: any) => {
     }
 
     const ClearButton = (clearProp: any) => {
-        return props.clear && <span className="image-remover" onClick={() => props.removePic(clearProp.index)}>
+        return props.clear && <span className="image-remover" onClick={() => handleRemovePic(clearProp.index)}>
                                 &times;
                               </span>
     }
